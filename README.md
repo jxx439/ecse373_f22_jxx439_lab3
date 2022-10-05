@@ -14,4 +14,4 @@ includes lab3.xacro, lab3.launch
 
 ## If the map does not load, please install the map_server with this command:    
 
-                   apt install ros-notic-map-server
+                   apt install ros-noetic-map-server
