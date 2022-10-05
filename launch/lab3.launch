@@ -1,0 +1,27 @@
+<launch>
+    <arg name="bag_path" default="$(find lab3)/bags/glennan_5_complete.bag" />
+    <arg name="bag_clock" default="/tf_trajectory:=/tf --clock" />
+    <arg name="map_path" default="$(find maps_glennan)/maps/glennan5_map.yaml" />
+
+    <include file="$(find navvis_description)/launch/lab2.launch">
+      
+        <arg name="use_xacro" value="true"/>
+        <arg name="file" value="$(find lab3)/urdf/lab3.xacro"/>
+        <arg name="use_gui" value="false"/>
+        <arg name="use_robot_state_publisher" value="true"/>
+    </include>
+
+    <node pkg="rosbag" type="play" name="rosbag" args="$(arg bag_path) $(arg bag_clock)"/>
+    <node pkg="map_server" type="map_server" name="map_server" args="$(arg map_path)"/>
+
+<!---
+    <node pkg="tf2_ros" type="static_transform_publisher" name="tf2_ros_wheel_left_broadcaster" args=" 0.0 0.365 0.2 -1.57 0.0 0.0 base wheel_left" />
+    <node pkg="tf2_ros" type="static_transform_publisher" name="tf2_ros_wheel_right_broadcaster" args=" 0.0 -0.365 0.2 -1.57 0.0 0.0 base wheel_right" />
+    <node  pkg="tf2_ros" type="static_transform_publisher" name="tf2_ros_wheel_center_broadcaster" args=" 0.0 -0.365 0.2 -1.57 0.0 0.0 base wheel_center" />
+-->
+<!--->
+    <node unless="$(arg use_robot_state_publisher)" pkg="tf2_ros" type="static_transform_publisher" name="tf2_ros_wheel_left_joint" args=" 0.0 0.365 0.2 -1.57 0.0 0.0 base wheel_left_joint" />
+    <node unless="$(arg use_robot_state_publisher)" pkg="tf2_ros" type="static_transform_publisher" name="tf2_ros_wheel_right_joint" args=" 0.0 -0.365 0.2 -1.57 0.0 0.0 base wheel_right_joint" />
+    <node unless="$(arg use_robot_state_publisher)" pkg="tf2_ros" type="static_transform_publisher" name="tf2_ros_wheel_center_joint" args=" 0.0 -0.365 0.2 -1.57 0.0 0.0 base wheel_center_joint" />
+-->
+</launch>
